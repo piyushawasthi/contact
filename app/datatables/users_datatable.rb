@@ -1,5 +1,5 @@
 class UsersDatatable
-  delegate :params, to: :@view
+  delegate :params, :link_to, to: :@view
 
   def initialize(view)
     @view = view
@@ -19,9 +19,10 @@ private
   def data
     users.map do |user|
       [
-        (user.first_name),
+        link_to(user.first_name, user),
         (user.last_name),
-        (user.role)
+        (user.email),
+        (user.phone)
       ]
     end
   end
@@ -34,7 +35,7 @@ private
     users = User.order("#{sort_column} #{sort_direction}")
     users = users.page(page).per_page(per_page)
     if params[:sSearch].present?
-      users = users.where("first_name like :search or last_name like :search or role like :search", search: "%#{params[:sSearch]}%")
+      users = users.where("first_name like :search or last_name like :search", search: "%#{params[:sSearch]}%")
     end
     users
   end
@@ -48,7 +49,7 @@ private
   end
 
   def sort_column
-    columns = %w[first_name last_name role]
+    columns = %w[first_name last_name email]
     columns[params[:iSortCol_0].to_i]
   end
 

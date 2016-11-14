@@ -1,0 +1,12 @@
+
+<%= form_for @user, :url => { :action => "update" } do |user_form| %>
+  <%= user_form.fields_for :user_meta do |user_meta| %>
+    <div class="field">
+       Meta Key: <%= user_meta.text_field :meta_key %>
+       Meta Value: <%= user_meta.text_field :meta_value %>
+    </div>
+   <% end %>
+   <div class="actions">
+    <%= user_form.submit %>
+  </div>
+<% end %>
